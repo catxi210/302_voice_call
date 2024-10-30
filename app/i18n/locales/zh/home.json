@@ -1,0 +1,27 @@
+{
+  "header": {
+    "title": "AI 语音通话"
+  },
+  "main": {
+    "advanced_options_should_not_click": "使用中，无法修改高级设置",
+    "connect_error": "出错啦，请尝试重新连接",
+    "connect_microphone_error": "获取麦克风出错啦，请赋予权限后再次尝试",
+    "fist_ask_demo": "你好，你是谁？",
+    "is_connecting_warning": "正在连接中，请停止连接后再切换功能",
+    "less_than_min_hangup_time": "保存失败，最大自动挂断时间设置不可小于0",
+    "over_idle_time": "空闲时间太长，已自动挂断",
+    "over_max_hangup_time": "保存失败，最大自动挂断时间可设置不可超过1小时",
+    "personality_list_label_custom": "自定义",
+    "personality_list_label_default": "默认",
+    "place_holder_personality": "可以输入多个值，使用空格隔开",
+    "sub_title_auto_hang_up": "当连接时间超过设定的值时自动挂断，单位为秒，0为禁用自动挂断",
+    "sub_title_hang_up_when_space": "当检测到空闲时间过长时，自动挂断",
+    "title_advance_options": "高级设置",
+    "title_auto_hang_up": "自动挂断",
+    "title_hang_up_when_space": "空闲时挂断",
+    "title_personality": "人格指令",
+    "title_voice": "语音音色",
+    "view_phone": "电话",
+    "view_takie": "对讲机"
+  }
+}

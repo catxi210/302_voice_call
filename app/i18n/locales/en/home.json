@@ -1,0 +1,27 @@
+{
+  "header": {
+    "title": "AI Voice Call"
+  },
+  "main": {
+    "advanced_options_should_not_click": "Cannot modify advanced settings during use",
+    "connect_error": "An error occurred, please try reconnecting",
+    "connect_microphone_error": "Error accessing the microphone, please grant permission and try again",
+    "fist_ask_demo": "Hello, who are you?",
+    "is_connecting_warning": "Currently connecting, please stop the connection before switching functions",
+    "less_than_min_hangup_time": "Save failed, the maximum auto hang-up time setting cannot be less than 0",
+    "over_idle_time": "Idle time is too long, call has been automatically hung up",
+    "over_max_hangup_time": "Save failed, the maximum auto hang-up time setting cannot exceed 1 hour",
+    "personality_list_label_custom": "Custom",
+    "personality_list_label_default": "Default",
+    "place_holder_personality": "You can enter multiple values, separated by spaces",
+    "sub_title_auto_hang_up": "Automatically hang up when the connection time exceeds the set value, in seconds, 0 to disable auto hang-up",
+    "sub_title_hang_up_when_space": "Automatically hang up when excessive idle time is detected",
+    "title_advance_options": "Advanced Settings",
+    "title_auto_hang_up": "Auto Hang-up",
+    "title_hang_up_when_space": "Hang Up on Idle",
+    "title_personality": "Personality Commands",
+    "title_voice": "Voice timbre",
+    "view_phone": "Phone",
+    "view_takie": "Intercom"
+  }
+}

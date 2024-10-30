@@ -1,0 +1,27 @@
+{
+  "header": {
+    "title": "AI音声通話"
+  },
+  "main": {
+    "advanced_options_should_not_click": "使用中、高度設定の変更はできません",
+    "connect_error": "エラーが発生しました。再接続をお試しください。",
+    "connect_microphone_error": "マイクへのアクセスにエラーが発生しました。権限を付与してから再度お試しください。",
+    "fist_ask_demo": "こんにちは、あなたは誰ですか？",
+    "is_connecting_warning": "接続中です。接続を停止してから機能を切り替えてください。",
+    "less_than_min_hangup_time": "保存に失敗しました。最大自動切断時間の設定は0より小さくてはなりません。",
+    "over_idle_time": "アイドル時間が長すぎるため、自動的に切断されました。",
+    "over_max_hangup_time": "保存に失敗しました。最大自動切断時間の設定は1時間を超えることはできません。",
+    "personality_list_label_custom": "カスタム",
+    "personality_list_label_default": "デフォルト",
+    "place_holder_personality": "複数の値を入力できます。スペースで区切ってください。",
+    "sub_title_auto_hang_up": "接続時間が設定値を超えたときに自動的に切断されます。単位は秒で、0は自動切断を無効にします。",
+    "sub_title_hang_up_when_space": "アイドル時間が長すぎることを検出したときに、自動的に切断されます。",
+    "title_advance_options": "高度な設定",
+    "title_auto_hang_up": "自動切断",
+    "title_hang_up_when_space": "アイドル時に切断",
+    "title_personality": "パーソナリティーコマンド",
+    "title_voice": "音声の音色",
+    "view_phone": "電話",
+    "view_takie": "トランシーバー"
+  }
+}
