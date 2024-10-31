@@ -36,7 +36,7 @@ AIボイスコールを通じて、誰でもいつでもどこでもAIと会話�
 
 ## 開発とデプロイ
 
-1. プロジェクトをクローン `git clone https://github.com/302ai/pub_realtime`
+1. プロジェクトをクローン `git clone https://github.com/302ai/302_voice_call`
 2. 依存関係をインストール `pnpm install`
 3. 302のAPI KEYを構成 .env.exampleを参照
 4. プロジェクトを実行 `pnpm dev`

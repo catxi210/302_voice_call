@@ -36,7 +36,7 @@ Through AI Voice Call, anyone can have conversations with AI anytime, anywhere. 
 
 ## Development & Deployment
 
-1. Clone the project `git clone https://github.com/302ai/pub_realtime`
+1. Clone the project `git clone https://github.com/302ai/302_voice_call`
 2. Install dependencies `pnpm install`
 3. Configure the 302 API KEY with reference to .env.example
 4. Run the project `pnpm dev`
