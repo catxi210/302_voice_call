@@ -4,6 +4,8 @@ import { useLogin } from '@/app/hooks/use-login'
 import { useTranslation } from '@/app/i18n/client'
 import MainContent from '../components/main-content'
 import Header from '../components/header'
+import { cn } from '@/lib/utils'
+import useSettings from '../hooks/use-settings'
 
 export default function Home({
   params: { locale },
@@ -11,6 +13,7 @@ export default function Home({
   params: { locale: string }
 }) {
   const { t } = useTranslation(locale)
+  const { settings } = useSettings();
   useLogin(t)
   return (
     <>
@@ -21,7 +24,9 @@ export default function Home({
           </header>
           <MainContent />
         </main>
-        <Footer />
+        {!settings?.hideBrand && (
+          <Footer className={cn('mb-4')} />
+        )}
       </div>
     </>
   )

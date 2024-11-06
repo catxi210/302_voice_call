@@ -14,6 +14,7 @@ import { Toaster } from 'react-hot-toast'
 import { Providers } from '../components/providers'
 import { Toolbar } from '../components/toolbar'
 import "spinkit/spinkit.min.css"
+import Chat302 from '../components/chat302'
 
 export async function generateStaticParams() {
   return languages.map((locale) => ({ locale }))
@@ -130,10 +131,7 @@ export default function RootLayout({
             <ErrorHandler />
             <Toolbar />
             {children}
-            <script
-              src='https://assets.salesmartly.com/js/project_177_61_1649762323.js'
-              async
-            />
+            <Chat302 />
           </Providers>
         </ClientOnly>
       </body>

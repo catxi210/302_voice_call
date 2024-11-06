@@ -31,7 +31,7 @@
 - OpenAI Realtime
 
 ## 开发&部署
-1. 克隆项目 `git clone https://github.com/302ai/pub_realtime`
+1. 克隆项目 `git clone https://github.com/302ai/302_voice_call`
 2. 安装依赖 `pnpm install`
 3. 配置302的API KEY 参考.env.example
 4. 运行项目 `pnpm dev`
