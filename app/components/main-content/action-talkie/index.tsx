@@ -1,19 +1,24 @@
 'use client'
-import { useCallback, useEffect, useRef, useState } from "react"
-import IconMic from "../../icons/icon-mic"
-import IconPower from "../../icons/icon-power"
-import ActionButton from "../action-button"
-import IconMicLoud from "../../icons/icon-mic-loud"
-import { RealtimeClient } from "@openai/realtime-api-beta"
-import { getInstructions } from "../instructions"
-import toast from "react-hot-toast"
-import { useClientTranslation } from "@/app/hooks/use-client-translation"
-import { WavRecorder, WavStreamPlayer } from "@/lib/wavtools/index.js"
-import { clearTimeout, setTimeout, setInterval } from "timers"
-import { getLocalStorage } from "@/lib/utils"
-import { AdvancdeOptionsKey, AdvancedOptions, PersonalityValueCustom } from "@/types"
-import { logger } from "@/lib/logger"
-import getRealtimeClient from "../get-realtime-client"
+import { useCallback, useEffect, useRef, useState } from 'react'
+import IconMic from '../../icons/icon-mic'
+import IconPower from '../../icons/icon-power'
+import ActionButton from '../action-button'
+import IconMicLoud from '../../icons/icon-mic-loud'
+import { RealtimeClient } from '@openai/realtime-api-beta'
+import { getInstructions } from '../instructions'
+import toast from 'react-hot-toast'
+import { useClientTranslation } from '@/app/hooks/use-client-translation'
+import { WavRecorder, WavStreamPlayer } from '@/lib/wavtools/index.js'
+import { clearTimeout, setTimeout, setInterval } from 'timers'
+import { getLocalStorage } from '@/lib/utils'
+import {
+  AdvancdeOptionsKey,
+  AdvancedOptions,
+  PersonalityValueCustom,
+} from '@/types'
+import { logger } from '@/lib/logger'
+import getRealtimeClient from '../get-realtime-client'
+import useHasPermission from '@/app/hooks/use-has-permission'
 
 /**
  * 标签 - 对讲机
@@ -26,19 +31,19 @@ const ActionTalkie = (props: {
    * 用于控制本组件是否开始连接，触发useEffect
    * Used to control whether this component starts connection, triggering useEffect
    */
-  startConnect: boolean,
+  startConnect: boolean
   /**
    * 连接成功后的回调
    * Callback after successful connection
    * @returns
    */
-  afterConnectSuccess: () => void,
+  afterConnectSuccess: () => void
   /**
    * 断开连接后的回调
    * Callback after disconnection
    * @returns
    */
-  onDisconnect: () => void,
+  onDisconnect: () => void
   /**
    * 是否正在使用
    * Whether it is currently in use
@@ -53,20 +58,21 @@ const ActionTalkie = (props: {
     startConnect,
     afterConnectSuccess: afterConnectSuccessParent,
     onChangeInUse: onChangeInUseParent,
-    updateTimerCounts
-  } = props;
-  const { t } = useClientTranslation();
+    updateTimerCounts,
+  } = props
+
+  const { t } = useClientTranslation()
 
   /**
    * 用户自设定超时
    * User-defined timeout
    */
-  const disconnectTimer = useRef<NodeJS.Timeout | null>(null);
+  const disconnectTimer = useRef<NodeJS.Timeout | null>(null)
   /**
    * 空闲超时倒计时计时器
    * Idle timeout countdown timer
    */
-  const disconnectIdleTimer = useRef<NodeJS.Timeout | null>(null);
+  const disconnectIdleTimer = useRef<NodeJS.Timeout | null>(null)
   /**
    * 秒数计时器
    * Second counter timer
@@ -78,48 +84,53 @@ const ActionTalkie = (props: {
    */
   const wavRecorderRef = useRef<WavRecorder>(
     new WavRecorder({ sampleRate: 24000 })
-  );
+  )
   /**
    * 声音播放器
    * Audio player
    */
   const wavStreamPlayerRef = useRef<WavStreamPlayer>(
     new WavStreamPlayer({ sampleRate: 24000 })
-  );
+  )
   /**
    * OpenAI 连接用的对象
    * Object used for OpenAI connection
    */
-  const clientRef = useRef<RealtimeClient>(getRealtimeClient());
+  const clientRef = useRef<RealtimeClient>(getRealtimeClient())
+
+  const { doAjax: doAjaxHasPermission } = useHasPermission()
+
   const advancedOptions = useRef<AdvancedOptions>({
     autoHangUp: 0,
     hangUpWhenIdle: false,
-    personalityValue: "",
-    personalityInputValue: "",
-    voiceValue: "alloy",
-  });
-  const [isRecoding, setIsRecording] = useState(false);
+    personalityValue: '',
+    personalityInputValue: '',
+    voiceValue: 'alloy',
+  })
+
+  const [isRecoding, setIsRecording] = useState(false)
 
   const onClickDisconnect = () => {
     const client = clientRef.current
-    const wavRecorder = wavRecorderRef.current;
-    const wavStreamPlayer = wavStreamPlayerRef.current;
+    const wavRecorder = wavRecorderRef.current
+    const wavStreamPlayer = wavStreamPlayerRef.current
     try {
-      wavStreamPlayer.interrupt();
-      wavRecorder.getStatus() !== "ended" && wavRecorder.end();
-      client.disconnect();
-    } catch (error) { }
-    setIsRecording(false);
-    onDisconnectParent();
+      wavStreamPlayer.interrupt()
+      wavRecorder.getStatus() !== 'ended' && wavRecorder.end()
+      client.disconnect()
+    } catch (error) {}
+    setIsRecording(false)
+    onDisconnectParent()
   }
 
   const onMousedown = async () => {
-    setIsRecording(true);
-    onChangeInUseParent(true);
-    const client = clientRef.current;
-    const wavRecorder = wavRecorderRef.current;
-    const wavStreamPlayer = wavStreamPlayerRef.current;
+    setIsRecording(true)
 
+    onChangeInUseParent(true)
+
+    const client = clientRef.current
+    const wavRecorder = wavRecorderRef.current
+    const wavStreamPlayer = wavStreamPlayerRef.current
     // 暂停播放AI声音
     // Pause playing AI sound
     const trackSampleOffset = await wavStreamPlayer.interrupt();
@@ -161,14 +172,27 @@ const ActionTalkie = (props: {
    * @returns
    */
   const initAdvancedOptions = () => {
-    const saveData = getLocalStorage(AdvancdeOptionsKey);
+    const saveData = getLocalStorage(AdvancdeOptionsKey)
     if (!saveData) {
-      return;
+      return
     }
     try {
-      const dataObject: AdvancedOptions = JSON.parse(saveData);
-      const { autoHangUp, hangUpWhenIdle, personalityValue, personalityInputValue, voiceValue = "alloy" } = dataObject;
-      advancedOptions.current = { autoHangUp, hangUpWhenIdle, personalityValue, personalityInputValue, voiceValue };
+      const dataObject: AdvancedOptions = JSON.parse(saveData)
+      const {
+        autoHangUp,
+        hangUpWhenIdle,
+        personalityValue,
+        personalityInputValue,
+        voiceValue = 'alloy',
+      } = dataObject
+
+      advancedOptions.current = {
+        autoHangUp,
+        hangUpWhenIdle,
+        personalityValue,
+        personalityInputValue,
+        voiceValue,
+      }
     } catch (error) {
       logger.error(error);
     }
@@ -180,44 +204,57 @@ const ActionTalkie = (props: {
    * Initialize OpenAI and the audio player
    */
   const connectConversation = useCallback(async () => {
-    const client = clientRef.current;
-    const wavRecorder = wavRecorderRef.current;
-    const wavStreamPlayer = wavStreamPlayerRef.current;
+    const client = clientRef.current
+    const wavRecorder = wavRecorderRef.current
+    const wavStreamPlayer = wavStreamPlayerRef.current
 
     // Connect to microphone
     try {
-      await wavRecorder.begin();
+      await wavRecorder.begin()
     } catch (error) {
-      toast.error(t("home:main.connect_microphone_error"))
-      onClickDisconnect();
-      return;
+      toast.error(t('home:main.connect_microphone_error'))
+      onClickDisconnect()
+      return
+    }
+
+    // has permission
+    const { flag, errorHint } = await doAjaxHasPermission()
+
+    if (!flag) {
+      if (errorHint) {
+        toast.error(t('home:main.connect_error'))
+      }
+      onClickDisconnect()
+      return
     }
 
     // Connect to audio output
-    await wavStreamPlayer.connect();
+    await wavStreamPlayer.connect()
 
-    let connectedFlag = false;
+    let connectedFlag = false
     // 尝试3次连接
     // 连接到音频输出
     // try 3 times connect to audio output
     for (let index = 0; index < 3; index++) {
-      const sleep = new Promise(resolve => setTimeout(() => resolve(null), 3000))
+      const sleep = new Promise((resolve) =>
+        setTimeout(() => resolve(null), 3000)
+      )
       if (index !== 0) {
-        await sleep;
+        await sleep
       }
       try {
         // Connect to realtime API
-        await client.connect();
-        connectedFlag = true;
-        break;
+        await client.connect()
+        connectedFlag = true
+        break
       } catch (error) {
         logger.error(error)
       }
     }
     if (!connectedFlag) {
-      toast.error(t("home:main.connect_error"))
-      onClickDisconnect();
-      return;
+      toast.error(t('home:main.connect_error'))
+      onClickDisconnect()
+      return
     }
 
     // 尝试发送消息
@@ -229,7 +266,7 @@ const ActionTalkie = (props: {
       },
     ]);
 
-    let count = 0;
+    let count = 0
     counterTimer.current = setInterval(() => {
       // 设置更新父级数字
       // Update the parent component's count
@@ -243,91 +280,94 @@ const ActionTalkie = (props: {
         if (!!wavStreamPlayerRef.current.stream || isRecoding) {
           if (disconnectIdleTimer.current) {
             clearTimeout(disconnectIdleTimer.current)
-            disconnectIdleTimer.current = null;
+            disconnectIdleTimer.current = null
           }
-          return;
+          return
         }
         if (!!disconnectIdleTimer.current) {
-          return;
+          return
         }
         // 空闲10秒后，断开连接
         // disconnect after 10s
         disconnectIdleTimer.current = setTimeout(() => {
-          toast.success(t("home:main.over_idle_time"))
-          onClickDisconnect();
-        }, 10 * 1000);
+          toast.success(t('home:main.over_idle_time'))
+          onClickDisconnect()
+        }, 10 * 1000)
       }
     }, 1000)
 
-    const { autoHangUp } = advancedOptions.current;
+    const { autoHangUp } = advancedOptions.current
     // 设置超时停止
     // reset
     if (autoHangUp > 0) {
       disconnectTimer.current = setTimeout(() => {
-        onClickDisconnect();
-      }, autoHangUp * 1000);
+        onClickDisconnect()
+      }, autoHangUp * 1000)
     }
 
     afterConnectSuccessParent()
-  }, []);
+  }, [])
 
   useEffect(() => {
-
     if (!startConnect) {
-      return;
+      return
     }
 
-    const wavStreamPlayer = wavStreamPlayerRef.current;
+    const wavStreamPlayer = wavStreamPlayerRef.current
 
-    clientRef.current = getRealtimeClient();
+    clientRef.current = getRealtimeClient()
 
-    const client = clientRef.current;
+    const client = clientRef.current
 
-    initAdvancedOptions();
+    initAdvancedOptions()
 
-    const {
-      personalityInputValue,
-      personalityValue,
-      voiceValue
-    } = advancedOptions.current;
+    const { personalityInputValue, personalityValue, voiceValue } =
+      advancedOptions.current
 
-    const instructions: string = getInstructions(personalityValue === PersonalityValueCustom ? personalityInputValue.split(" ") : []);
+    const instructions: string = getInstructions(
+      personalityValue === PersonalityValueCustom
+        ? personalityInputValue.split(' ')
+        : []
+    )
 
-    client.updateSession({ instructions: instructions });
-    client.updateSession({ input_audio_transcription: { model: 'whisper-1' } });
-    client.updateSession({ voice: voiceValue });
+    client.updateSession({ instructions: instructions })
+    client.updateSession({ input_audio_transcription: { model: 'whisper-1' } })
+    client.updateSession({
+      // @ts-ignore
+      voice: voiceValue,
+    })
     client.on('error', (event: any) => {
       console.error(event)
-      toast.error(t("home:main.connect_error"))
-      onClickDisconnect();
-    });
+      toast.error(t('home:main.connect_error'))
+      onClickDisconnect()
+    })
     client.on('conversation.updated', async ({ item, delta }: any) => {
       // const items = client.conversation.getItems();
       if (delta?.audio) {
-        wavStreamPlayer.add16BitPCM(delta.audio, item.id);
+        wavStreamPlayer.add16BitPCM(delta.audio, item.id)
       }
       if (item.status === 'completed' && item.formatted.audio?.length) {
         const wavFile = await WavRecorder.decode(
           item.formatted.audio,
           24000,
           24000
-        );
-        item.formatted.file = wavFile;
+        )
+        item.formatted.file = wavFile
       }
       wavStreamPlayer.interruptedTrackIds
 
       // setItems(items);
-    });
+    })
     client.on('conversation.interrupted', async () => {
-      const trackSampleOffset = await wavStreamPlayer.interrupt();
+      const trackSampleOffset = await wavStreamPlayer.interrupt()
       if (trackSampleOffset?.trackId) {
-        const { trackId, offset } = trackSampleOffset;
-        await client.cancelResponse(trackId, offset);
+        const { trackId, offset } = trackSampleOffset
+        await client.cancelResponse(trackId, offset)
       }
-    });
+    })
     // Set transcription, otherwise we don't get user transcriptions back
 
-    connectConversation();
+    connectConversation()
 
     return () => {
       // OpenAI断开连接
@@ -337,15 +377,15 @@ const ActionTalkie = (props: {
       // clear timer
       if (disconnectTimer.current) {
         clearTimeout(disconnectTimer.current)
-        disconnectTimer.current = null;
+        disconnectTimer.current = null
       }
       if (disconnectIdleTimer.current) {
         clearTimeout(disconnectIdleTimer.current)
-        disconnectIdleTimer.current = null;
+        disconnectIdleTimer.current = null
       }
       if (counterTimer.current) {
         clearTimeout(counterTimer.current)
-        counterTimer.current = null;
+        counterTimer.current = null
       }
     }
   }, [startConnect])
@@ -356,29 +396,25 @@ const ActionTalkie = (props: {
         className={`${isRecoding ? 'bg-green-400 hover:bg-green-400 dark:bg-green-400 dark:hover:bg-green-400' : 'hover:bg-gray-100'}`}
         // onMouseDown={() => onMousedown()}
         // onMouseUp={() => onMouseUp()}
-        onClick={() => isRecoding ? onMouseUp() : onMousedown()}
+        onClick={() => (isRecoding ? onMouseUp() : onMousedown())}
       >
         <>
           {isRecoding ? (
-            <IconMicLoud
-              className="m-auto my-auto z-0"
-            />
+            <IconMicLoud className='z-0 m-auto my-auto' />
           ) : (
-            <IconMic
-              className="m-auto my-auto z-0"
-            />
+            <IconMic className='z-0 m-auto my-auto' />
           )}
         </>
       </ActionButton>
-      <div className="absolute -right-1/2 top-0 bottom-0 flex flex-col justify-center z-10">
+      <div className='absolute -right-1/2 bottom-0 top-0 z-10 flex flex-col justify-center'>
         <div
-          className="min-w-12 min-h-12 bg-red-500 hover:bg-red-600 rounded-2xl flex flex-col justify-center shadow-md"
+          className='flex min-h-12 min-w-12 flex-col justify-center rounded-2xl bg-red-500 shadow-md hover:bg-red-600'
           onClick={() => onClickDisconnect()}
         >
-          <IconPower className="m-auto" />
+          <IconPower className='m-auto' />
         </div>
       </div>
     </>
   )
 }
-export default ActionTalkie;
+export default ActionTakie

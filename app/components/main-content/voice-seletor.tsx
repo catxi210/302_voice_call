@@ -30,6 +30,18 @@ export const VoiceSelector = (props: {
       }, {
         label: "shimmer",
         value: "shimmer",
+      },{
+        label: "fable",
+        value: "fable",
+      },{
+        label: "onyx",
+        value: "onyx",
+      },{
+        label: "nova",
+        value: "nova",
+      },{
+        label: "croal",
+        value: "croal",
       },
     ]
 
@@ -53,7 +65,7 @@ export const VoiceSelector = (props: {
         <FaChevronDown className='size-2 ml-2' />
       </Button>
       <DropupMenu
-        className="w-full max-w-screen-md h-1/5"
+        className="w-full max-w-screen-md h-2/5"
         open={open}
         onClose={() => setOpen(false)}
       >

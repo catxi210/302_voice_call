@@ -7,6 +7,14 @@ import { isEmpty } from 'radash'
 import { langToCountry } from './lang-to-country'
 import { getApiKey } from '../utils'
 
+export type ErrorResponse = {
+  error: {
+    err_code: number
+    [key: `message${string}`]: string
+    type: string
+  }
+}
+
 const apiKy = ky.create({
   prefixUrl: env('NEXT_PUBLIC_API_URL'),
   timeout: 30000,
@@ -26,9 +34,22 @@ const apiKy = ky.create({
     afterResponse: [
       async (request, options, response) => {
         if (!response.ok) {
-          const res = await response.json<{ error: { err_code: number } }>()
-          if (!isEmpty(res.error?.err_code)) {
-            emitter.emit('ToastError', res.error.err_code)
+          const res = await response.json<ErrorResponse>()
+
+          // Emit a toast error if there is an error code
+          const uiLanguage = useUserStore.getState().language
+          if (res.error && uiLanguage) {
+            const countryCode =
+              langToCountry(uiLanguage) === 'en'
+                ? null
+                : langToCountry(uiLanguage)
+
+            const message =
+              res.error[`message${countryCode ? `_${countryCode}` : ''}`]
+            emitter.emit('ToastErrorNew', {
+              code: res.error.err_code,
+              message,
+            })
           }
         }
       },

@@ -45,7 +45,7 @@ const PersonalityValueCustom = "custom";
  * 音色 - 可取值
  * Voice - possible values
  */
-declare type VoiceValue = "alloy" | "echo" | "shimmer";
+declare type VoiceValue = "alloy" | "echo" | "shimmer" | "fable" | "onyx" | "nova" | "croal";
 
 export type { TopTabValue, AdvancedOptions, VoiceValue, }
 export { AdvancdeOptionsKey, PersonalityValueDefault, PersonalityValueCustom }
