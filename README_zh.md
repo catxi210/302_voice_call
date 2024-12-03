@@ -2,7 +2,7 @@
 
 <p align="center">AI语音通话通过实时语音接口与AI进行语音聊天，支持对讲机模式和电话模式，还可以自定义AI的人格类型。</p>
 
-<p align="center"><a href="https://302.ai/tools/word/" target="blank"><img src="https://file.302ai.cn/gpt/imgs/badge/21212.png" /></a></p >
+<p align="center"><a href="https://302.ai/tools/word/" target="blank"><img src="https://file.302ai.cn/gpt/imgs/github/302_badge.png" /></a></p >
 
 <p align="center"><a href="README zh.md">中文</a> | <a href="README.md">English</a> | <a href="README_ja.md">日本語</a></p>
 
@@ -12,11 +12,9 @@
 或者对本项目根据自己的需求进行修改，传入302.AI的API KEY，自行部署。
 
 ## 界面预览
+分对讲机和电话两种模式，提供自动挂断、语音音色和人格指令三种参数自由设定。
+![1. 对讲机](docs/通话1.png)
 
-### 1、对讲机
-![1. 对讲机](docs/one.png)
-### 2、电话
-![2. 电话](docs/two.png)
 
 ## 项目特性
 ### 📱语音通话模式
