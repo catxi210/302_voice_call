@@ -6,6 +6,7 @@
 
 <p align="center"><a href="README zh.md">中文</a> | <a href="README.md">English</a> | <a href="README_ja.md">日本語</a></p>
 
+![1. インターコム](docs/语音通话jp.png)
 
 [302.AI](https://302.ai)からの[AIボイスコール](https://302.ai/tools/realtime/)のオープンソース版です。
 302.AIに直接ログインして、コードも設定もなくオンライン版を使用できます。または、このプロジェクトを自分のニーズに合わせて修正し、302.AIのAPI KEYを入力して、自分でデプロイすることもできます。
