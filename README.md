@@ -12,7 +12,7 @@ The open-source version of [AI Voice Call](https://302.ai/tools/realtime/) from 
 You can directly log in to 302.AI and use the online version with zero code and zero configuration. Alternatively, modify this project according to your needs, input your 302.AI API KEY, and deploy it yourself.
 
 ## Interface Preview
-There are two modes, namely walkie-talkie mode and telephone mode, and three parameters including automatic hang-up, voice timbre and personality instructions can be freely set.
+It has two modes, namely walkie-talkie and telephone, and offers a variety of parameters that can be freely set.
 ![2. Phone - Dark](docs/通话2.png)
 
 ## Project Features
