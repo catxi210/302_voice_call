@@ -8,7 +8,7 @@
 
 ![2. Phone - Dark](docs/语音通话en.png)
 
-The open-source version of [AI Voice Call](https://302.ai/tools/realtime/) from [302.AI](https://302.ai).
+The open-source version of [AI Voice Call](https://302.ai/en/tools/realtime/) from [302.AI](https://302.ai).
 
 You can directly log in to 302.AI and use the online version with zero code and zero configuration. Alternatively, modify this project according to your needs, input your 302.AI API KEY, and deploy it yourself.
 
