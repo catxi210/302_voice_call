@@ -55,8 +55,7 @@ Through AI Voice Call, anyone can have conversations with AI anytime, anywhere. 
 
 ## ✨ 302.AI Introduction ✨
 
-[302.AI](https://302.ai) is an on-demand AI application platform that solves the last-mile problem of putting AI into practice for users.
-
+[302.AI](https://302.ai) is an enterprise-oriented AI application platform that offers pay-as-you-go services, ready-to-use solutions, and an open-source ecosystem.✨
 1. 🧠 It aggregates the latest and most comprehensive AI capabilities and brands, including but not limited to language models, image models, voice models, and video models.
 2. 🚀 We develop real AI products, not just simple chatbots, through deep application development based on foundational models.
 3. 💰 Zero monthly fees, with all functions paid on demand, fully open, achieving truly low thresholds and high ceilings.
